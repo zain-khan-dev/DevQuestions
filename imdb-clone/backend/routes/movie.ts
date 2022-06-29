@@ -5,7 +5,7 @@ import Actor from "../entity/actor"
 import Movie from "../entity/movie"
 import Producer from "../entity/producer"
 import multer from "multer"
-const upload = multer({ dest: './public/data/uploads/' });
+const upload = multer({ dest: './public/posters/' });
 
 const router = express.Router()
 
@@ -48,7 +48,14 @@ router.post("/", upload.single("file"), async (req:Request, res:Response) => {
 
     console.log(formData)
 
-    console.log(req.file)
+
+    let path =""
+
+    if(req.file){
+        path = req.file["destination"] + req.file["filename"]
+        path = path.substring(8)
+        console.log(path)
+    }
 
     console.log(req.body)
 
@@ -82,7 +89,7 @@ router.post("/", upload.single("file"), async (req:Request, res:Response) => {
     const movie1 = new Movie()
     movie1.name = req.body["name"]
     movie1.plot = req.body["plot"]
-    movie1.poster = ""
+    movie1.poster = path
     movie1.year_of_release = req.body["releaseYear"]
     movie1.addActors(actorList)
 
