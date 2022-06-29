@@ -1,6 +1,6 @@
 import React, {FormEventHandler, MouseEventHandler, useState} from "react"
 import AutoComplete from "../Component/AutoComplete"
-
+import {User} from "../schema"
 
 const AddMovie = () => {
 
@@ -10,7 +10,10 @@ const AddMovie = () => {
 
     const [releaseYear, setReleaseYear] = useState("")
 
-    const [producer, setProducer] = useState("")
+
+    const [actorList, setActorList] = useState<User[]>([])
+
+    const [producer, setProducer] = useState<User|null>(null)
 
     const [plot, setPlot] = useState("")
 
@@ -21,11 +24,22 @@ const AddMovie = () => {
     }
 
 
-    const addAdditionalActor = (event:React.MouseEvent<HTMLButtonElement>) => {
-        console.log("helloworld")
-        event.preventDefault()
+    const handleAddActor = (actor:User|null) => {
+        if(!actor)
+        return
+        const copyActorList:User[] = [...actorList]
+        copyActorList.push(actor)
+        setActorList(copyActorList)
     }
 
+    const handleAddProducer = (newProducer:User|null) => {
+
+        if(!newProducer)
+        return
+        setProducer(newProducer)
+    }
+
+    console.log(actorList)
 
     return (
         <div className="mx-auto">
@@ -34,12 +48,16 @@ const AddMovie = () => {
                 <form className="flex flex-col justify-center">
                     <label className="block mb-2 text-lg">Enter name</label>
                     <input className="block my-2 border-2 border-black" value={name} onChange={(e)=>setName(e.target.value)} type="text" />
-                    <AutoComplete /> <button className="bg-blue-500 w-fit m-2 px-3 py-2 mx-auto text-white rounded-xl">Add</button>
-                    <div className="flex flex-row">
+                    <div>Choose Actors</div>
+                    <AutoComplete handleAddUser={handleAddActor} /> 
+                    <div className="flex flex-col">
+                        <div className="text-lg">Actors List</div>
+                        <div>
+                            {actorList.map((actor)=><div>{actor.name}</div>)}
+                        </div>
                     </div>
                     <label className="my-2">Add Producer</label>
-                    <AutoComplete />
-                    <input className="my-2 border-2 border-black" value={producer}  onChange={(e)=>setProducer(e.target.value)} type="text" />
+                    <AutoComplete handleAddUser={handleAddProducer} />
                     <label className="block my-2" >Enter year of release</label>
                     <input className="block my-2 border-2 border-black" value={releaseYear} onChange={(e)=>setReleaseYear(e.target.value)} type="date" />
                     <label className="block my-2">Enter plot</label>
