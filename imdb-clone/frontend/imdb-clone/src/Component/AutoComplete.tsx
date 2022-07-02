@@ -32,6 +32,8 @@ const AutoComplete:React.FC<Props>  = ({handleAddUser, type}) => {
 
     const [selectedPerson, setSelectedPerson] = useState<User|null>(null)
 
+
+
     useEffect(()=>{
 
         if((type === "actor" && actors.length != 0) || (type=="producer" && producers.length !=0 )){

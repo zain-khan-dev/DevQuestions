@@ -1,13 +1,17 @@
 import axios from "axios"
 import { useEffect,useState } from "react"
+import { useNavigate } from "react-router-dom"
 import MovieView from "../Component/MovieView"
 import {Movie} from "../Constants/schema"
+
 
 const ListMovies = () => {
 
     const [TMDBMovies, setTMDBMovies] = useState<Movie[]>([])
     const [DBMovies, setDBMovies] = useState<Movie[]>([])
 
+
+    const navigate = useNavigate()
 
     useEffect(()=>{
         const token = process.env.REACT_APP_TOKEN4
@@ -33,10 +37,14 @@ const ListMovies = () => {
     }, [])
 
 
+    const moveToCreate = () => {
+        navigate("/add")
+    }
 
     return (
         <div className="w-9/12 mx-auto text-center">
             <div className="text-5xl">Movies List</div>
+            <button className="px-3 py-2 bg-green-600 text-white rounded-xl my-2" onClick={moveToCreate}>Add New Movies</button>
             <div className="text-3xl font-bold">Database Movies</div>
             <div className="grid grid-cols-4 gap-4">
                 {DBMovies.map((movie)=><MovieView movie={movie} type="db" />)}

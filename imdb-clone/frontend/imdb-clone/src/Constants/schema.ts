@@ -1,20 +1,3 @@
-export interface Actor {
-    id:number,
-    name:string,
-    gender:string,
-    bio:string,
-    dob:string
-}
-export interface Producer {
-    id:number,
-    name:string,
-    gender:string,
-    bio:string,
-    dob:string
-}
-
-
-
 export interface User {
     id:number,
     name:string,
@@ -30,3 +13,5 @@ export interface Movie {
     plot:string,
     poster:string
 }
+
+export type Gender = "Male"|"Female"|"Other"

@@ -2,6 +2,8 @@ import axios from "axios"
 import React, {FormEventHandler, MouseEventHandler, useState} from "react"
 import AutoComplete from "../Component/AutoComplete"
 import {User} from "../Constants/schema"
+import DialogForm from "../Component/DialogForm"
+import {ACTOR, PRODUCER} from "../Constants/Constants"
 
 const AddMovie = () => {
 
@@ -80,7 +82,6 @@ const AddMovie = () => {
         setProducer(newProducer)
     }
 
-    console.log(actorList)
 
     return (
         <div className="mx-auto">
@@ -90,7 +91,8 @@ const AddMovie = () => {
                     <label className="block mb-2 text-xl">Enter name</label>
                     <input className="block my-2 border-2 border-black" value={name} onChange={(e)=>setName(e.target.value)} type="text" />
                     <div className="text-xl">Choose Actors</div>
-                    <AutoComplete handleAddUser={handleAddActor} type="actor" /> 
+                    <AutoComplete handleAddUser={handleAddActor} type="actor" />
+                    <DialogForm btnText="Add Actor" userType={ACTOR} /> 
                     <div className="flex flex-col">
                         <div className="text-xl">Chosen Actors</div>
                         <div>
@@ -99,6 +101,8 @@ const AddMovie = () => {
                     </div>
                     <label className="my-2">Add Producer</label>
                     <AutoComplete handleAddUser={handleAddProducer} type="producer" />
+                    <DialogForm btnText="Add Producer" userType={PRODUCER} /> 
+                    <label className="my-2">Chosen Producer</label>
                     <div>{producer!=null?producer.name:""}</div>
                     <label className="block my-2" >Enter year of release</label>
                     <input className="block my-2 border-2 border-black" value={releaseYear} onChange={(e)=>setReleaseYear(e.target.value)} type="date" />

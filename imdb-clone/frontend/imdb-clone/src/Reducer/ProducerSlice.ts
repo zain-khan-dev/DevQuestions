@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from "./store"
-import {Producer} from "../Constants/schema"
+import {User} from "../Constants/schema"
 
 
 // Define a type for the slice state
 interface UserState {
-    users:Producer[]
+    users:User[]
 }
 
 // Define the initial state using that type
@@ -20,12 +20,15 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
-    setProducer: (state, action: PayloadAction<Producer[]>) => {
+    setProducer: (state, action: PayloadAction<User[]>) => {
       state.users = action.payload
     },
+    addProducer :(state, action:PayloadAction<User>) => {
+      state.users.push(action.payload)
+    }
   },
 })
 
-export const { setProducer } = userSlice.actions
+export const { setProducer, addProducer } = userSlice.actions
 
 export default userSlice.reducer
