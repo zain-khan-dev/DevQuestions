@@ -20,7 +20,7 @@ const ListMovies = () => {
         axios.get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${token3}`)
         .then((response)=>{
             console.log(response.data.results)
-            setTMDBMovies(response.data.results.map((movie:any)=>{return {name:movie.title, plot:movie.overview,poster:movie.poster_path }}))
+            setTMDBMovies(response.data.results.map((movie:any)=>{return {name:movie.title, plot:movie.overview,poster:movie.poster_path,year_of_release:movie.release_date }}))
             console.log("Made request succesfully")
         })
 
