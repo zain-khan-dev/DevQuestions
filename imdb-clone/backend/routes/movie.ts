@@ -55,7 +55,7 @@ router.post("/", upload.single("file"), async (req:Request, res:Response) => {
         path = req.file["destination"] + req.file["filename"]
         path = path.substring(8)
         console.log(path)
-    }
+    }   
 
     console.log(req.body)
 
@@ -98,15 +98,10 @@ router.post("/", upload.single("file"), async (req:Request, res:Response) => {
     else{
 
     }
-    AppDataSource.manager.save(movie1)
-    .then((result)=>{
-        console.log("Successfully craeted")
-    })
-    .catch((err)=>{
-        console.log("Facing error " + err)
-    })
+    const movie = await AppDataSource.manager.save(movie1)
 
-    return res.json("Posting user data")
+
+    return res.json(movie)
 })
 
 

@@ -14,4 +14,7 @@ export interface Movie {
     poster:string
 }
 
+
+
+
 export type Gender = "Male"|"Female"|"Other"

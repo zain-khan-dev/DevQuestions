@@ -4,15 +4,9 @@ import Actor from "../entity/actor"
 
 const router = express.Router()
 
-
-
 router.get("/", async (req:Request,res:Response) => {
 
-    const user = await AppDataSource
-    .createQueryBuilder()
-    .select("actor")
-    .from(Actor, "actor")
-    .getMany()
+    const user = await AppDataSource.getRepository(Actor).find({})
 
     return res.json(user)
 })
@@ -26,18 +20,17 @@ router.post("/", async (req:Request, res:Response) => {
     const actorInstance = req.body
 
 
-    await AppDataSource
-    .createQueryBuilder()
-    .insert()
-    .into(Actor)
-    .values([   
-        {"name":actorInstance.name,
-        "dob":actorInstance.dob,
-        "gender":actorInstance.gender,
-        "bio":actorInstance.bio}])
-    .execute()
 
-    return res.json("Created Successfully")
+    const newActor = new Actor()
+
+    newActor.bio = actorInstance.bio
+    newActor.dob = actorInstance.dob
+    newActor.gender = actorInstance.gender
+    newActor.name = actorInstance.name
+
+    const actor = await AppDataSource.getRepository(Actor).save(newActor)
+
+    return res.json(actor)
 })
 
 

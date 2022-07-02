@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import ActorReducer from "./ActorSlice"
+import MovieSlirce from './MovieSlirce'
 import ProducerSlice from "./ProducerSlice"
 
 
 export const store = configureStore({
   reducer: {
     actor: ActorReducer,
-    producer: ProducerSlice
+    producer: ProducerSlice,
+    movie: MovieSlirce
   },
 })
 

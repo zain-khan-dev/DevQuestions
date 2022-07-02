@@ -19,10 +19,25 @@ router.get("/", async (req:Request,res:Response) => {
 
 
 
-router.post("/", (req:Request, res:Response) => {
-    res.json("Posting producer data")
-})
+router.post("/", async (req:Request, res:Response) => {
 
+    console.log(req.body)
+
+    const actorInstance = req.body
+
+
+
+    const newProducer = new Producer()
+
+    newProducer.bio = actorInstance.bio
+    newProducer.dob = actorInstance.dob
+    newProducer.gender = actorInstance.gender
+    newProducer.name = actorInstance.name
+
+    const producer = await AppDataSource.getRepository(Producer).save(newProducer)
+
+    return res.json(producer)
+})
 
 router.put("/", (req:Request, res:Response) => {
     res.json("Updating producer data")

@@ -1,17 +1,25 @@
 import axios from "axios"
 import { useEffect,useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import MovieView from "../Component/MovieView"
 import {Movie} from "../Constants/schema"
-
+import { setMovie } from "../Reducer/MovieSlirce"
+import { RootState } from "../Reducer/store"
+import { useAppSelector } from "../Reducer/hook"
 
 const ListMovies = () => {
 
     const [TMDBMovies, setTMDBMovies] = useState<Movie[]>([])
-    const [DBMovies, setDBMovies] = useState<Movie[]>([])
 
+
+
+    const dbMovies =  useAppSelector((state:RootState)=>state.movie.movies)
+
+    const dispatch = useDispatch()
 
     const navigate = useNavigate()
+
 
     useEffect(()=>{
         const token = process.env.REACT_APP_TOKEN4
@@ -26,8 +34,8 @@ const ListMovies = () => {
 
         axios.get("http://localhost:8000/movie")
         .then((result)=>{
+            dispatch(setMovie(result.data))
             console.log(result.data)
-            setDBMovies(result.data)
         })
         .catch((err)=>{
             console.log(err)
@@ -47,7 +55,7 @@ const ListMovies = () => {
             <button className="px-3 py-2 bg-green-600 text-white rounded-xl my-2" onClick={moveToCreate}>Add New Movies</button>
             <div className="text-3xl font-bold">Database Movies</div>
             <div className="grid grid-cols-4 gap-4">
-                {DBMovies.map((movie)=><MovieView movie={movie} type="db" />)}
+                {dbMovies.map((movie)=><MovieView movie={movie} type="db" />)}
             </div>
             <div>Movies will be displayed here</div>
             <div className="text-3xl font-bold">TMDB Movies</div>

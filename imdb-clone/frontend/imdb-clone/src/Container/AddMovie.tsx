@@ -4,9 +4,14 @@ import AutoComplete from "../Component/AutoComplete"
 import {User} from "../Constants/schema"
 import DialogForm from "../Component/DialogForm"
 import {ACTOR, PRODUCER} from "../Constants/Constants"
+import { useNavigate } from "react-router-dom"
+import { useAppDispatch } from "../Reducer/hook"
+import { addMovie } from "../Reducer/MovieSlirce"
 
 const AddMovie = () => {
 
+
+    const navigate = useNavigate()
 
 
     const [name, setName] = useState("")
@@ -22,13 +27,14 @@ const AddMovie = () => {
 
     const fileRef = React.createRef<HTMLInputElement>()
 
+
+    const dispatch = useAppDispatch()
+
     console.log(fileRef)
 
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        console.log("here")
-        console.log(event)
         let files = null
         let file = null
 
@@ -54,17 +60,21 @@ const AddMovie = () => {
         else
             formData.append("file", file)
 
+        
+
 
 //{name:name, actorList:actorList,plot:plot, releaseYear: releaseYear, producer:producer, file:file}
         axios.post("http://localhost:8000/movie", formData , {headers:{"Content-Type": "multipart/form-data"}})
         .then((result)=>{
             console.log(result)
+            dispatch(addMovie(result.data))
             console.log("submitted successfully")
         })
         .catch((err)=>{
             console.log("Facing error "+ err)
         })
         console.log(name, releaseYear, plot)
+        navigate("/")
     }
 
 
