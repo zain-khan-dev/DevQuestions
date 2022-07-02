@@ -20,8 +20,6 @@ const DialogForm:React.FC<Props> = ({btnText, userType}) => {
   }
 
 
-
-
   return (
     <>
       <div className="flex items-center justify-center mt-2">

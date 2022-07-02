@@ -6,6 +6,8 @@ import {AiFillCaretDown} from "react-icons/ai"
 import { setActor } from '../Reducer/ActorSlice'
 import {setProducer} from "../Reducer/ProducerSlice"
 import { useAppSelector, useAppDispatch } from '../Reducer/hook'
+import {ACTOR, PRODUCER} from "../Constants/Constants"
+
 
 interface Props {
     handleAddUser:(user:User)=> void,
@@ -35,9 +37,18 @@ const AutoComplete:React.FC<Props>  = ({handleAddUser, type}) => {
 
 
     useEffect(()=>{
+        if(type == ACTOR){
+            setPeopleList(actors)
+        }
+        else{
+            setPeopleList(producers)
+        }
+    }, [actors, producers])
 
-        if((type === "actor" && actors.length != 0) || (type=="producer" && producers.length !=0 )){
-            if(type ==="actor")
+    useEffect(()=>{
+
+        if((type === ACTOR && actors.length != 0) || (type==PRODUCER && producers.length !=0 )){
+            if(type === ACTOR)
             setPeopleList(actors)
             else
             setPeopleList(producers)
@@ -45,7 +56,7 @@ const AutoComplete:React.FC<Props>  = ({handleAddUser, type}) => {
         else{
             axios.get("http://localhost:8000/" + type)
                 .then((result)=>{
-                    if(type === "actor"){
+                    if(type === ACTOR){
                         console.log("setting actors")
                         dispatch(setActor(result.data))
                     }
